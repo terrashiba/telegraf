@@ -16,10 +16,13 @@ type IfDefined<T, P extends PropertyKey> = PropOr<T, P> extends undefined
   ? never
   : P
 
-export type Deunionize<T, R extends PropertyKey = 'reply_to_message'> = {
-  [P in keyof U2I<T> as IfDefined<T, P>]: P extends R
-    ? Deunionize<NonNullable<PropOr<T, P>>, R>
-    : PropOr<T, P>
+export type Deunionize<T> = {
+  [P in keyof U2I<T> as IfDefined<T, P>]: Extract<
+    U2I<NonNullable<PropOr<T, P>>>,
+    object
+  > extends never
+    ? PropOr<T, P>
+    : Deunionize<NonNullable<PropOr<T, P>>> | Extract<PropOr<T, P>, undefined>
 }
 
 /**
@@ -28,5 +31,5 @@ export type Deunionize<T, R extends PropertyKey = 'reply_to_message'> = {
  * @deprecated
  */
 export function deunionize<T extends object | undefined>(t: T) {
-  return t as Deunionize<T, never>
+  return t as Deunionize<T>
 }
