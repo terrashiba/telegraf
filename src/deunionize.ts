@@ -6,8 +6,16 @@ export type PropOr<
 
 export type UnionKeys<T> = T extends unknown ? keyof T : never
 
+type U2I<U> = (U extends unknown ? (k: U) => void : never) extends (
+  k: infer I
+) => void
+  ? I
+  : never
+
 export type Deunionize<T, R extends PropertyKey = 'reply_to_message'> = {
-  [P in UnionKeys<T>]: P extends R ? Deunionize<PropOr<T, P>, R> : PropOr<T, P>
+  [P in keyof U2I<T>]: P extends R
+    ? Deunionize<NonNullable<PropOr<T, P>>, R>
+    : PropOr<T, P>
 }
 
 /**
