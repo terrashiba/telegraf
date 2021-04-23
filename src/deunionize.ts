@@ -1,25 +1,20 @@
 export type PropOr<
-  T extends object | undefined,
+  T,
   P extends string | symbol | number,
   D = undefined
 > = T extends Partial<Record<P, unknown>> ? T[P] : D
 
 export type UnionKeys<T> = T extends unknown ? keyof T : never
 
-type AddOptionalKeys<K extends PropertyKey> = { readonly [P in K]?: undefined }
-
-/**
- * @see https://millsp.github.io/ts-toolbelt/modules/union_strict.html
- */
-export type Deunionize<B, T extends B = B> = T extends object
-  ? { [P in keyof T]: P extends 'reply_to_message' ? Deunionize<T[P]> : T[P] } &
-      AddOptionalKeys<Exclude<UnionKeys<B>, keyof T>>
-  : T
+export type Deunionize<T> = {
+  [P in UnionKeys<T>]: P extends 'reply_to_message'
+    ? Deunionize<PropOr<T, P>>
+    : PropOr<T, P>
+}
 
 /**
  * Expose properties from all union variants.
  * @see https://github.com/telegraf/telegraf/issues/1388#issuecomment-791573609
- * @see https://millsp.github.io/ts-toolbelt/modules/union_strict.html
  * @deprecated
  */
 export function deunionize<T extends object | undefined>(t: T) {
