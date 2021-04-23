@@ -11,10 +11,10 @@ type AddOptionalKeys<K extends PropertyKey> = { readonly [P in K]?: undefined }
 /**
  * @see https://millsp.github.io/ts-toolbelt/modules/union_strict.html
  */
-export type Deunionize<
-  B extends object | undefined,
-  T extends B = B
-> = T extends object ? T & AddOptionalKeys<Exclude<UnionKeys<B>, keyof T>> : T
+export type Deunionize<B, T extends B = B> = T extends object
+  ? { [P in keyof T]: P extends 'reply_to_message' ? Deunionize<T[P]> : T[P] } &
+      AddOptionalKeys<Exclude<UnionKeys<B>, keyof T>>
+  : T
 
 /**
  * Expose properties from all union variants.
