@@ -6,10 +6,8 @@ export type PropOr<
 
 export type UnionKeys<T> = T extends unknown ? keyof T : never
 
-export type Deunionize<T> = {
-  [P in UnionKeys<T>]: P extends 'reply_to_message'
-    ? Deunionize<PropOr<T, P>>
-    : PropOr<T, P>
+export type Deunionize<T, R extends PropertyKey = 'reply_to_message'> = {
+  [P in UnionKeys<T>]: P extends R ? Deunionize<PropOr<T, P>, R> : PropOr<T, P>
 }
 
 /**
@@ -18,5 +16,5 @@ export type Deunionize<T> = {
  * @deprecated
  */
 export function deunionize<T extends object | undefined>(t: T) {
-  return t as Deunionize<T>
+  return t as Deunionize<T, never>
 }
