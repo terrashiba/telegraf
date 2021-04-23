@@ -12,8 +12,12 @@ type U2I<U> = (U extends unknown ? (k: U) => void : never) extends (
   ? I
   : never
 
+type IfDefined<T, P extends PropertyKey> = PropOr<T, P> extends undefined
+  ? never
+  : P
+
 export type Deunionize<T, R extends PropertyKey = 'reply_to_message'> = {
-  [P in keyof U2I<T>]: P extends R
+  [P in keyof U2I<T> as IfDefined<T, P>]: P extends R
     ? Deunionize<NonNullable<PropOr<T, P>>, R>
     : PropOr<T, P>
 }
