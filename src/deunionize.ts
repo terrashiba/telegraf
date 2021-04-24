@@ -12,12 +12,10 @@ type U2I<U> = (U extends unknown ? (k: U) => void : never) extends (
   ? I
   : never
 
-type IfDefined<T, P extends PropertyKey> = PropOr<T, P> extends undefined
-  ? never
-  : P
+type PartialU2I<U> = Partial<U2I<U>> & U
 
 export type Deunionize<T> = {
-  [P in keyof U2I<T> as IfDefined<T, P>]: Extract<
+  [P in keyof PartialU2I<T>]: Extract<
     U2I<NonNullable<PropOr<T, P>>>,
     object
   > extends never

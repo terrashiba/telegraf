@@ -585,7 +585,7 @@ type UpdateTypes<U extends Deunionize<tg.Update>> = Extract<
 >
 
 export type GetUpdateContent<
-  U extends tg.Update
+  U extends Deunionize<tg.Update>
 > = U extends tg.Update.CallbackQueryUpdate
   ? U['callback_query']['message']
   : U[UpdateTypes<U>]
@@ -595,7 +595,9 @@ type Getter<U extends Deunionize<tg.Update>, P extends string> = PropOr<
   P
 >
 
-function getMessageFromAnySource<U extends tg.Update>(ctx: Context<U>) {
+function getMessageFromAnySource<U extends Deunionize<tg.Update>>(
+  ctx: Context<U>
+) {
   return (
     ctx.message ??
     ctx.editedMessage ??

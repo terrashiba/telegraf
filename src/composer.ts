@@ -373,6 +373,7 @@ export class Composer<C extends Context> implements MiddlewareObj<C> {
     ...fns: NonemptyReadonlyArray<Middleware<NarrowedContext<C, U>>>
   ): MiddlewareFn<C> {
     return Composer.optional<C>(
+      // @ts-expect-error
       (ctx) => guardFn(ctx.update),
       // @ts-expect-error see explanation above
       ...fns
@@ -429,6 +430,7 @@ export class Composer<C extends Context> implements MiddlewareObj<C> {
       return Composer.entity(({ type }) => entityTypes.includes(type), ...fns)
     }
     return Composer.optional<C>((ctx) => {
+      // @ts-expect-error
       const msg: tg.Message | undefined = ctx.message ?? ctx.channelPost
       if (msg === undefined) {
         return false
