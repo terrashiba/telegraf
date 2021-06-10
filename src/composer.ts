@@ -25,6 +25,7 @@ type MatchedMiddleware<
     Produces: a context that has some properties required, and some undefined.
     The required ones are those that are always present when the given update (or message) arrives.
     The undefined ones are those that are always absent when the given update (or message) arrives. */
+/** @deprecated */
 type MatchedContext<
   C extends Context,
   T extends tt.UpdateType | tt.MessageSubType
@@ -34,7 +35,7 @@ type MatchedContext<
  * Narrows down `C['update']` (and derived getters)
  * to specific update type `U`.
  *
- * Used by [[`Composer`]],
+ * Used by {@link Composer},
  * possibly useful for splitting a bot into multiple files.
  */
 export type NarrowedContext<
