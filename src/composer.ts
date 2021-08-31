@@ -4,6 +4,7 @@ import * as tg from './core/types/typegram'
 import * as tt from './telegram-types'
 import { Middleware, MiddlewareFn, MiddlewareObj } from './middleware'
 import Context from './context'
+import { Deunionize } from './deunionize'
 
 type MaybeArray<T> = T | T[]
 export type MaybePromise<T> = T | Promise<T>
@@ -38,10 +39,11 @@ type MatchedContext<
  * Used by {@link Composer},
  * possibly useful for splitting a bot into multiple files.
  */
+// prettier-ignore
 export type NarrowedContext<
   C extends Context,
   U extends tg.Update
-> = Context<U> & Omit<C, keyof Context>
+> = Context<Deunionize<U>> & Omit<C, keyof Context>
 
 interface GameQueryUpdate extends tg.Update.CallbackQueryUpdate {
   callback_query: tg.CallbackQuery.GameShortGameCallbackQuery
@@ -559,8 +561,9 @@ export class Composer<C extends Context> implements MiddlewareObj<C> {
     triggers: ReadonlyArray<(text: string, ctx: C) => RegExpExecArray | null>,
     ...fns: MatchedMiddleware<C, T>
   ): MiddlewareFn<MatchedContext<C, T>> {
+    // @ts-expect-error
     const handler = Composer.compose(fns)
-    return (ctx, next) => {
+    return (ctx: any, next) => {
       const text =
         getText(ctx.message) ??
         getText(ctx.channelPost) ??
@@ -568,10 +571,8 @@ export class Composer<C extends Context> implements MiddlewareObj<C> {
         ctx.inlineQuery?.query
       if (text === undefined) return next()
       for (const trigger of triggers) {
-        // @ts-expect-error
         const match = trigger(text, ctx)
         if (match) {
-          // @ts-expect-error define so far unknown property `match`
           return handler(Object.assign(ctx, { match }), next)
         }
       }
