@@ -141,13 +141,21 @@ export class Telegraf<C extends Context = Context> extends Composer<C> {
         ? (req, res) => webhookCb(req, res, () => cb(req, res))
         : webhookCb
     this.webhookServer =
-      tlsOptions !== undefined
+      tlsOptions != null
         ? https.createServer(tlsOptions, callback)
         : http.createServer(callback)
     this.webhookServer.listen(port, host, () => {
       debug('Webhook listening on port: %s', port)
     })
     return this
+  }
+
+  secretPathComponent() {
+    return crypto
+      .createHash('sha3-256')
+      .update(this.token)
+      .update(process.version) // salt
+      .digest('hex')
   }
 
   /**
@@ -176,8 +184,7 @@ export class Telegraf<C extends Context = Context> extends Composer<C> {
       domain = new URL(domain).host
     }
     const hookPath =
-      config.webhook.hookPath ??
-      `/telegraf/${crypto.randomBytes(32).toString('hex')}`
+      config.webhook.hookPath ?? `/telegraf/${this.secretPathComponent()}`
     const { port, host, tlsOptions, cb } = config.webhook
     this.startWebhook(hookPath, tlsOptions, port, host, cb)
     if (!domain) {

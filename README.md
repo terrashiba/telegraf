@@ -1,9 +1,12 @@
 <header>
-<img src="https://raw.githubusercontent.com/telegraf/telegraf/010e971f3c61c854605bf9a5af10a4925d4032fb/docs/header.png" style="background: #FFFFFF3F">
+<img src="docs/assets/logo.svg" alt="logo" height="90" align="left">
+<h1 style="display: inline">telegraf.js</h1>
 
-[![Bot API Version](https://img.shields.io/badge/Bot%20API-v5.1-f36caf.svg?style=flat-square)](https://core.telegram.org/bots/api)
-![GitHub top language](https://img.shields.io/github/languages/top/telegraf/telegraf?style=flat-square)
+Modern Telegram Bot API framework for Node.js
+
+[![Bot API Version](https://img.shields.io/badge/Bot%20API-v5.3-f36caf.svg?style=flat-square)](https://core.telegram.org/bots/api)
 [![install size](https://flat.badgen.net/packagephobia/install/telegraf)](https://packagephobia.com/result?p=telegraf,node-telegram-bot-api)
+[![GitHub top language](https://img.shields.io/github/languages/top/telegraf/telegraf?style=flat-square&logo=github)](https://github.com/telegraf/telegraf)
 [![Russian chat](https://img.shields.io/badge/Russian%20chat-grey?style=flat-square&logo=telegram)](https://t.me/telegraf_ru)
 [![English chat](https://img.shields.io/badge/English%20chat-grey?style=flat-square&logo=telegram)](https://t.me/TelegrafJSChat)
 </header>
@@ -23,7 +26,7 @@ Telegraf is a library that makes it simple for you to develop your own Telegram 
 
 ### Features
 
-- Full [Telegram Bot API 5.1](https://core.telegram.org/bots/api) support
+- Full [Telegram Bot API 5.3](https://core.telegram.org/bots/api) support
 - [Excellent TypeScript typings](https://github.com/telegraf/telegraf/releases/tag/v4.0.0)
 - [Lightweight](https://packagephobia.com/result?p=telegraf,node-telegram-bot-api)
 - [AWS **λ**](https://docs.aws.amazon.com/lambda/latest/dg/nodejs-prog-model-handler.html)
@@ -239,6 +242,7 @@ require('https')
 - [`fastify` example integration](https://github.com/telegraf/telegraf/blob/develop/docs/examples/fastify-webhook-bot.js)
 - [Google Cloud Functions example integration](https://github.com/telegraf/telegraf/blob/develop/docs/examples/google-cloud-function.ts)
 - [`koa` example integration](https://github.com/telegraf/telegraf/blob/develop/docs/examples/koa-webhook-bot.js)
+- [NestJS framework integration module](https://github.com/bukhalo/nestjs-telegraf)
 - Use [`bot.handleUpdate`](https://telegraf.js.org/classes/telegraf.html#handleupdate) to write new integrations
 
 ### Error handling
