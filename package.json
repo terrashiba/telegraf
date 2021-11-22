@@ -44,7 +44,7 @@
   "types": "./typings/index.d.ts",
   "dependencies": {
     "abort-controller": "^3.0.0",
-    "debug": "^4.3.1",
+    "debug": "^4.3.2",
     "minimist": "^1.2.5",
     "module-alias": "^2.2.2",
     "node-fetch": "^2.6.1",
